@@ -84,6 +84,23 @@ function min() {
 	return currMin;
 }
 
+function oct(x) {
+	return x.toString(8);
+}
+
+function ord(c) {
+	return c.charCodeAt();
+}
+
+function pow(x, y, z) {
+	if (z == undefined) return Math.pow(x,y);
+	else return pow(x, y) % z;
+}
+
+function print() {
+	return console.log.apply(arguments);
+}
+
 function range(start, stop, step){
     if (typeof stop=='undefined'){
         // one param defined
@@ -101,9 +118,31 @@ function range(start, stop, step){
         result.push(i);
     };
     return result;
-};
-
-function ord(c) {
-	return c.charCodeAt();
 }
 
+function reversed(seq) {
+	if (seq instanceof Array) {
+		return seq.reverse();
+	}
+
+	if (seq instanceof String) {
+		return seq.split('').reverse().join('');
+	}
+}
+
+function round(x, n) {
+	return parseFloat(x.toFixed((n != undefined) ? n : 0));
+}
+
+function sum(seq, start) {
+	return seq.slice(start).reduce(function(a, b) { return a + b });
+}
+
+function zip(x, y) {
+	var n = [];
+	var l = (x.length > y.length) ? y.length : x.length;
+	for (var i = l - 1; i >= 0; i--) {
+		n.push([x[i], y[i]]);	
+	};
+	return n;
+}
