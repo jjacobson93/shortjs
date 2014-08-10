@@ -78,7 +78,7 @@
 
 	/**
 	 * Returns the keys of an object. If no object is
-	 * given, then it returns the keys of window/exports
+	 * given, then it returns the keys of window/global
 	 * 
 	 * @param {Object} [o]
 	 * @return {Array} array of keys
@@ -86,7 +86,18 @@
 	exports.dir = function(o) {
 		if (arguments.length == 1 && o != undefined) return Object.keys(o);
 		if (arguments.length == 1 && o == undefined) return [];
-		else return Object.keys((exports != undefined) ? exports : window);
+		else return Object.keys((global != undefined) ? global : window);
+	}
+
+	/**
+	 * Filters an Array or Object
+	 *
+	 * @param {Object|Array} o
+	 * @param {Function} f
+	 * @param {Object|Array} new array/object
+	 */
+	exports.filter = function(o, f) {
+		return o.filter(f);
 	}
 
 	/**
@@ -132,23 +143,43 @@
 	}
 
 	/**
-	 * Returns the length of a string/array
+	 * Returns the last element of the array or string
+	 * 
+	 * @param {Array|String} a
+	 * @return {*}
+	 */
+	exports.last = function(a) {
+		return a[a.length - 1];
+	}
+
+	/**
+	 * Returns the length of a string/array/object
 	 *
-	 * @param {String|Array} o
+	 * @param {String|Array|Object} o
 	 * @return {Number} length
 	 */
 	exports.len = function(o) {
-		return o.length;
+		return (typeof(o) == 'string' || o instanceof String || o instanceof Array) ? o.length : Object.keys(o).length;
+	}
+
+	/**
+	 * Logs to the console (alias of console.log)
+	 *
+	 * @param {...*} [arguments]
+	 * @return {undefined}
+	 */
+	exports.log = function() {
+		return console.log.apply(console, arguments);
 	}
 
 	/**
 	 * Maps an Array or Object
-	 * 
-	 * @param {Function} f
+	 *
 	 * @param {Object|Array} o
+	 * @param {Function} f
 	 * @param {Object|Array} new array/object
 	 */
-	exports.map = function(f, o) {
+	exports.map = function(o, f) {
 		return o.map(f);
 	}
 
@@ -216,16 +247,6 @@
 	}
 
 	/**
-	 * Prints to the console (alias of console.log)
-	 *
-	 * @param {...*} [arguments]
-	 * @return {undefined}
-	 */
-	exports.print = function() {
-		return console.log.apply(console, arguments);
-	}
-
-	/**
 	 * Returns a range from start to stop with step steps.
 	 * If one argument is given, stop = start.
 	 *
@@ -278,6 +299,22 @@
 	 */
 	exports.round = function(x, n) {
 		return parseFloat(x.toFixed((n != undefined) ? n : 0));
+	}
+
+	/**
+	 * Splits a given sequence into n parts
+	 *
+	 * @param {Array|String} a
+	 * @param {Number} n
+	 * @return {Array|String} out
+	 */
+	exports.split = function(a, n) {
+	    var len = a.length, out = [], i = 0;
+	    while (i < len) {
+	        var size = Math.ceil((len - i) / n--);
+	        out.push(a.slice(i, i += size));
+	    }
+	    return out;
 	}
 
 	/**
